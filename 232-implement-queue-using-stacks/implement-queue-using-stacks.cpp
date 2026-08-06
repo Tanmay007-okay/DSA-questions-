@@ -17,7 +17,7 @@ public:
             }
         }
         if (output.empty()) {
-            cout << "Queue is empty, cannot pop." << endl;
+            cout << "Queue is empty." << endl;
             return -1;
         }
 
@@ -35,7 +35,7 @@ public:
             }
         }
          if (output.empty()) {
-            cout << "Queue is empty, cannot peek." << endl;
+            cout << "Queue is empty." << endl;
             return -1;
         }
 
