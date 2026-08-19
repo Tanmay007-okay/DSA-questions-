@@ -1,49 +1,42 @@
 class MyQueue {
+private:
+    stack<int> s1, s2;
+
 public:
-    stack<int> input,output;
-    MyQueue() {
-        
-    }
-    
+    MyQueue() {}
+
     void push(int x) {
-        input.push(x);
+        while(s1.size()){
+            s2.push(s1.top());
+            s1.pop();
+        }
+        s1.push(x);
+        while(s2.size()){
+            s1.push(s2.top());
+            s2.pop();
+        }
     }
-    
+
     int pop() {
-         if (output.empty()) {
-            while (!input.empty()) {
-                output.push(input.top());
-                input.pop();
-            }
+        if (s1.empty()) {
+            cout << "Stack is empty";
+            return -1; // Representing empty stack
         }
-        if (output.empty()) {
-            cout << "Queue is empty." << endl;
-            return -1;
-        }
-
-        int x = output.top();
-        output.pop();
-        return x;
-        
+        int topElement=s1.top();
+        s1.pop();
+        return topElement;
     }
-    
+
     int peek() {
-         if (output.empty()) {
-            while (!input.empty()) {
-                output.push(input.top());
-                input.pop();
-            }
-        }
-         if (output.empty()) {
-            cout << "Queue is empty." << endl;
+        if(s1.empty()){
+            cout<<"Stack is empty";
             return -1;
         }
-
-        return output.top();
+        return s1.top();
     }
-    
+
     bool empty() {
-        return input.empty() && output.empty();
+        return s1.empty();
     }
 };
 
