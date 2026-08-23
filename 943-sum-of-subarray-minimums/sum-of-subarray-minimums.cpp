@@ -1,60 +1,34 @@
 class Solution {
-private:
-
-    vector<int> findNSE(vector<int> &arr) {
-        int n = arr.size();
-        vector<int> ans(n);
-        stack<int> st;
-        for(int i = n - 1; i >= 0; i--) {
-            int currEle = arr[i];
-            while(!st.empty() && arr[st.top()] >= arr[i]){
-                st.pop();
-            }
-            ans[i] = !st.empty() ? st.top() : n;            
-            st.push(i);
-        }
-
-        return ans;
-    }
-
-    vector<int> findPSEE(vector<int> &arr) {
-
-        int n = arr.size();
-
-        vector<int> ans(n);
-        stack<int> st;
-        for(int i=0; i < n; i++) {
-            int currEle = arr[i];
-            while(!st.empty() && arr[st.top()] > arr[i]){
-                st.pop();
-            }
-            ans[i] = !st.empty() ? st.top() : -1;
-            st.push(i);
-        }
-        return ans;
-    }
-    
 public:
+    static constexpr int MOD = 1000000007;
+    static constexpr int SIZE = 30000;
 
-    int sumSubarrayMins(vector<int> &arr) {
-        
-        vector<int> nse =  findNSE(arr);
-        vector<int> psee =findPSEE(arr);
-        int n = arr.size();
-        
-        int mod = 1e9 + 7;
-        int sum = 0;
-        for(int i=0; i < n; i++) {
+    int sumSubarrayMins(vector<int>& arr) {
+        int mins_index[SIZE + 1];
+        long long temp_sum[SIZE + 1];
+        int index = 0;
+        long long res = 0;
+        mins_index[0] = -1;
+        temp_sum[0] = 0;
+        for (int i = 0; i < arr.size(); i++) {
+            int curr = arr[i];
 
-            int left = i - psee[i];
-            int right = nse[i] - i;
+            while (index > 0 && curr <= arr[mins_index[index]]) {
+                index--;
+            }
 
-            long long freq = left*right*1LL;
+            long long curr_sum =
+                1LL * curr * (i - mins_index[index]);
 
-            int val = (freq*arr[i]*1LL) % mod;
+            temp_sum[index + 1] =
+                (temp_sum[index] + curr_sum) % MOD;
 
-            sum = (sum + val) % mod;
+            index++;
+            mins_index[index] = i;
+
+            res = (res + temp_sum[index]) % MOD;
         }
-        return sum;
+
+        return (int)res;
     }
 };
