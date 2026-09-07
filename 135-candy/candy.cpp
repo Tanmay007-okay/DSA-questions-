@@ -1,19 +1,39 @@
 class Solution {
 public:
     int candy(vector<int>& ratings) {
-        int n = ratings.size();
-        vector<int> candy(n, 1); // assign the vector a pre-value of 1.
-            for (int i = 1; i < n; i++) {
-                if (ratings[i] > ratings[i - 1] && candy[i] <= candy[i - 1]) {
-                    candy[i] = candy[i - 1] + 1;
-                    
-                }
+         int n = ratings.size();
+         int candies = n;
+
+        // Start from second child
+        int i = 1;
+
+        while (i < n) {
+
+           
+            if (ratings[i] == ratings[i - 1]) {
+                i++;
+                continue;
             }
-            for (int i = n - 2; i >= 0; --i) {
-                if (ratings[i] > ratings[i + 1] && candy[i] <= candy[i + 1]) {
-                    candy[i] = candy[i + 1] + 1;
-                }
+
+            int peak = 0;
+
+            while (i < n && ratings[i] > ratings[i - 1]) {
+                peak++;
+                candies += peak;
+                i++;
             }
-        return accumulate(candy.begin(), candy.end(), 0);
+
+            int valley = 0;
+            while (i < n && ratings[i] < ratings[i - 1]) {
+                valley++;
+                candies += valley;
+                i++;
+            }
+
+            candies -= min(peak, valley);
+        }
+
+       
+        return candies;
     }
 };
