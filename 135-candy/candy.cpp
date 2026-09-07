@@ -3,22 +3,17 @@ public:
     int candy(vector<int>& ratings) {
         int n = ratings.size();
         vector<int> candy(n, 1); // assign the vector a pre-value of 1.
-        bool updated = true;
-        while (updated) {
-            updated = false;
             for (int i = 1; i < n; i++) {
                 if (ratings[i] > ratings[i - 1] && candy[i] <= candy[i - 1]) {
                     candy[i] = candy[i - 1] + 1;
-                    updated = true;
+                    
                 }
             }
             for (int i = n - 2; i >= 0; --i) {
                 if (ratings[i] > ratings[i + 1] && candy[i] <= candy[i + 1]) {
                     candy[i] = candy[i + 1] + 1;
-                    updated = true;
                 }
             }
-        }
         return accumulate(candy.begin(), candy.end(), 0);
     }
 };
