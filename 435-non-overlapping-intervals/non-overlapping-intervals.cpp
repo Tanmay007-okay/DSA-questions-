@@ -1,6 +1,7 @@
 class Solution {
 public:
     int eraseOverlapIntervals(vector<vector<int>>& intervals) {
+        //sorting according to ending time.
         sort(intervals.begin(),intervals.end(),[](auto& a,auto& b){
             return a[1]<b[1];
         });
